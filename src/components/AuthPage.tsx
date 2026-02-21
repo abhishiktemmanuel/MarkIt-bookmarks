@@ -61,9 +61,9 @@ const AuthPage = () => {
                     {/* Footer */}
                     <p className="mt-8 text-xs text-muted-foreground leading-relaxed">
                         By continuing, you agree to our{" "}
-                        <span className="underline cursor-pointer">Terms of Service</span>{" "}
-                        and{" "}
-                        <span className="underline cursor-pointer">Privacy Policy</span>.
+                        <a href="/terms" className="underline hover:text-foreground transition-colors">Terms of Service</a>
+                        {" "}and{" "}
+                        <a href="/privacy" className="underline hover:text-foreground transition-colors">Privacy Policy</a>.
                     </p>
 
                     <div className="mt-6 flex items-center gap-3 text-muted-foreground">
