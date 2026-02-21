@@ -1,12 +1,15 @@
+"use client";
+
 import { useState } from "react";
 import { Link, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface Props {
   onAdd: (url: string, title: string) => void;
+  loading?: boolean;
 }
 
-const AddBookmarkCard = ({ onAdd }: Props) => {
+const AddBookmarkCard = ({ onAdd, loading }: Props) => {
   const [url, setUrl] = useState("");
   const [title, setTitle] = useState("");
 
@@ -56,11 +59,11 @@ const AddBookmarkCard = ({ onAdd }: Props) => {
           type="submit"
           whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.98 }}
-          disabled={!url.trim()}
+          disabled={!url.trim() || loading}
           className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-semibold text-sm flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed hover:glow-primary transition-shadow"
         >
           <Zap className="w-4 h-4" />
-          Add Bookmark
+          {loading ? "Saving…" : "Add Bookmark"}
         </motion.button>
       </form>
     </motion.div>

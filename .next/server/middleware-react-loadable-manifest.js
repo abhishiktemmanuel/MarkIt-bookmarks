@@ -1,0 +1,1 @@
+self.__REACT_LOADABLE_MANIFEST="{\"components/BookmarkList.tsx -> @/components/ui/link-preview\":{\"id\":\"components/BookmarkList.tsx -> @/components/ui/link-preview\",\"files\":[\"static/chunks/_app-pages-browser_src_components_ui_link-preview_tsx.js\"]}}"

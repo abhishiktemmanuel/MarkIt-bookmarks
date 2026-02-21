@@ -1,73 +1,143 @@
-# Welcome to your Lovable project
+# MarkIt — Smart Bookmark Manager
 
-## Project info
+> Your private bookmarks. Always in sync.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+A minimal, real-time bookmark manager with Google sign-in, instant cross-tab sync. Built with Next.js 15, Supabase, and Tailwind CSS.
 
-## How can I edit this code?
+![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)
+![Supabase](https://img.shields.io/badge/Supabase-Backend-3ECF8E?logo=supabase)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC?logo=tailwind-css)
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## Features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+- 🔐 **Google-only sign-in** — no passwords, session persists across refreshes
+- 🔒 **Strictly private** — Row Level Security enforced at the database level
+- ⚡ **Real-time sync** — bookmarks update instantly across all open tabs
+- 📁 **Collections** — organize bookmarks into folders
+- 📦 **Archive** — stash bookmarks without deleting them
+- 🌙 **Glassmorphism UI** — polished, responsive design with dark mode tokens
 
-Changes made via Lovable will be committed automatically to this repo.
+---
 
-**Use your preferred IDE**
+## Tech Stack
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 15 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS |
+| Auth | Supabase Auth (Google OAuth) |
+| Database | Supabase (PostgreSQL + RLS) |
+| Real-time | Supabase Realtime (WebSockets) |
+| Animations | Framer Motion |
+| Icons | Lucide React |
+| Hosting | Vercel |
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## Getting Started
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### Prerequisites
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- Node.js 18+
+- A [Supabase](https://supabase.com) account
+- A [Google Cloud](https://console.cloud.google.com) project (for OAuth)
 
-# Step 3: Install the necessary dependencies.
-npm i
+### 1. Clone & Install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+git clone https://github.com/your-username/glass-whisper-bookmarks.git
+cd glass-whisper-bookmarks
+npm install
+```
+
+### 2. Set Up Supabase
+
+1. Create a new project at [supabase.com](https://supabase.com)
+2. Go to **Project Settings → API** and copy your **Project URL** and **anon key**
+
+### 3. Configure Environment Variables
+
+```bash
+cp .env.local.example .env.local
+```
+
+Edit `.env.local`:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
+```
+
+### 4. Run the Database Schema
+
+Open the **Supabase SQL Editor** and run the contents of [`supabaseSchema.sql`](./supabaseSchema.sql).
+
+This creates:
+- `bookmarks` + `collections` tables
+- Row Level Security policies (`user_id = auth.uid()` on all operations)
+- Realtime enabled on both tables
+- Performance indexes
+
+### 5. Set Up Google OAuth
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com/apis/credentials) → **Create OAuth 2.0 Client**
+2. Add this **Authorized redirect URI**:
+   ```
+   https://your-project.supabase.co/auth/v1/callback
+   ```
+3. In Supabase → **Authentication → Providers → Google**: paste your Client ID & Secret
+
+### 6. Configure Supabase Redirect URLs
+
+In Supabase → **Authentication → URL Configuration**:
+- **Site URL**: `http://localhost:3000`
+- **Redirect URLs**: add `http://localhost:3000/auth/callback`
+
+### 7. Run
+
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Open [http://localhost:3000](http://localhost:3000).
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+---
 
-**Use GitHub Codespaces**
+## Project Structure
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```
+src/
+├── app/
+│   ├── layout.tsx          # Root layout (AuthProvider, Toaster)
+│   ├── page.tsx            # Auth gate + all state management
+│   ├── globals.css         # Tailwind + glassmorphism tokens
+│   └── auth/callback/      # OAuth redirect handler
+├── components/             # All UI components
+├── context/
+│   └── AuthContext.tsx     # Google OAuth session
+├── hooks/
+│   └── useRealtimeSync.ts  # Supabase Realtime subscriptions
+├── lib/
+│   ├── api.ts              # All Supabase CRUD operations
+│   └── supabase/           # Browser + server clients
+├── middleware.ts           # Session cookie refresh
+└── types/
+    └── index.ts            # DB types + UI mappers
+```
 
-## What technologies are used for this project?
+## Security
 
-This project is built with:
+- **Row Level Security** is enabled on all tables — every query is scoped to `auth.uid()`
+- `user_id` is **never supplied by the client** — it's set by a database default to `auth.uid()`
+- The Supabase `service_role` key is never exposed to the client
+- No API routes bypass RLS
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+---
 
-## How can I deploy this project?
+## License
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+MIT
