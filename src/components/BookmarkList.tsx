@@ -1,13 +1,16 @@
-import { Trash2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { BookmarkItem } from "@/pages/Dashboard";
+import type { BookmarkItem } from "@/pages/Index";
+import BookmarkActions from "@/components/BookmarkActions";
 
 interface Props {
   bookmarks: BookmarkItem[];
+  collections: string[];
   onDelete: (id: string) => void;
+  onArchive: (id: string) => void;
+  onSetCollection: (id: string, collection: string | undefined) => void;
 }
 
-const BookmarkList = ({ bookmarks, onDelete }: Props) => {
+const BookmarkList = ({ bookmarks, collections, onDelete, onArchive, onSetCollection }: Props) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
@@ -58,9 +61,16 @@ const BookmarkList = ({ bookmarks, onDelete }: Props) => {
 
                 {/* Content */}
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-foreground truncate">
-                    {bookmark.title}
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm font-medium text-foreground truncate">
+                      {bookmark.title}
+                    </p>
+                    {bookmark.collection && (
+                      <span className="text-[10px] font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded-md flex-shrink-0 hidden sm:inline">
+                        {bookmark.collection}
+                      </span>
+                    )}
+                  </div>
                   <p className="text-xs text-muted-foreground truncate">
                     {bookmark.url}
                   </p>
@@ -71,13 +81,16 @@ const BookmarkList = ({ bookmarks, onDelete }: Props) => {
                   {bookmark.createdAt}
                 </span>
 
-                {/* Delete */}
-                <button
-                  onClick={() => onDelete(bookmark.id)}
-                  className="opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity p-1.5 rounded-lg hover:bg-destructive/10 text-muted-foreground hover:text-destructive flex-shrink-0"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
+                {/* Actions */}
+                <BookmarkActions
+                  bookmarkId={bookmark.id}
+                  isArchived={bookmark.archived}
+                  collections={collections}
+                  currentCollection={bookmark.collection}
+                  onDelete={onDelete}
+                  onArchive={onArchive}
+                  onSetCollection={onSetCollection}
+                />
               </motion.div>
             ))}
           </AnimatePresence>

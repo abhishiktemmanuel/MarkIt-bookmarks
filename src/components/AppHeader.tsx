@@ -1,8 +1,20 @@
 import { useState } from "react";
 import { Bookmark, LogOut, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import type { AppPage } from "@/pages/Index";
 
-const AppHeader = () => {
+interface Props {
+  currentPage: AppPage;
+  onPageChange: (page: AppPage) => void;
+}
+
+const navItems: { page: AppPage; label: string }[] = [
+  { page: "bookmarks", label: "All Bookmarks" },
+  { page: "collections", label: "Collections" },
+  { page: "archive", label: "Archive" },
+];
+
+const AppHeader = ({ currentPage, onPageChange }: Props) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -19,9 +31,17 @@ const AppHeader = () => {
         {/* Nav + Profile */}
         <div className="flex items-center gap-6">
           <nav className="hidden md:flex items-center gap-6">
-            <span className="text-sm font-medium text-primary cursor-pointer">All Bookmarks</span>
-            <span className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer">Collections</span>
-            <span className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer">Archive</span>
+            {navItems.map(({ page, label }) => (
+              <button
+                key={page}
+                onClick={() => onPageChange(page)}
+                className={`text-sm font-medium transition-colors cursor-pointer ${
+                  currentPage === page ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
           </nav>
 
           {/* Profile */}
@@ -48,6 +68,15 @@ const AppHeader = () => {
                   <p className="text-sm font-medium text-foreground px-2 mb-1">Alex Rivera</p>
                   <p className="text-xs text-muted-foreground px-2 mb-3">alex@example.com</p>
                   <div className="h-px bg-border mb-2" />
+                  <button
+                    onClick={() => {
+                      onPageChange("profile");
+                      setMenuOpen(false);
+                    }}
+                    className="w-full flex items-center gap-2 text-sm text-foreground hover:bg-accent rounded-lg px-2 py-2 transition-colors mb-1"
+                  >
+                    Profile
+                  </button>
                   <button className="w-full flex items-center gap-2 text-sm text-destructive hover:bg-destructive/10 rounded-lg px-2 py-2 transition-colors">
                     <LogOut className="w-4 h-4" />
                     Sign out
