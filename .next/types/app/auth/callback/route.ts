@@ -1,4 +1,4 @@
-// File: /Users/abhishikt_mac/Skills/Coding/glass-whisper-bookmarks/src/app/auth/callback/route.ts
+// File: /Users/abhishikt_mac/Skills/Coding/Bookmarks App/glass-whisper-bookmarks/src/app/auth/callback/route.ts
 import * as entry from '../../../../../src/app/auth/callback/route.js'
 import type { NextRequest } from 'next/server.js'
 

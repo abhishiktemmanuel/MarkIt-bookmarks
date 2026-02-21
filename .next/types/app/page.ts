@@ -1,4 +1,4 @@
-// File: /Users/abhishikt_mac/Skills/Coding/glass-whisper-bookmarks/src/app/page.tsx
+// File: /Users/abhishikt_mac/Skills/Coding/Bookmarks App/glass-whisper-bookmarks/src/app/page.tsx
 import * as entry from '../../../src/app/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
