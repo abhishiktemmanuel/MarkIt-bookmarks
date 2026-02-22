@@ -1551,9 +1551,6 @@ body{
 .p-0{
   padding: 0px;
 }
-.p-0\.5{
-  padding: 0.125rem;
-}
 .p-1{
   padding: 0.25rem;
 }
@@ -2395,16 +2392,12 @@ body{
   color: hsl(var(--primary));
 }
 
-.group:hover .group-hover\:text-muted-foreground\/70{
-  color: hsl(var(--muted-foreground) / 0.7);
+.group:hover .group-hover\:text-muted-foreground\/60{
+  color: hsl(var(--muted-foreground) / 0.6);
 }
 
 .group:hover .group-hover\:text-primary{
   color: hsl(var(--primary));
-}
-
-.group:hover .group-hover\:text-muted-foreground\/60{
-  color: hsl(var(--muted-foreground) / 0.6);
 }
 
 .group\/link:hover .group-hover\/link\:opacity-100{

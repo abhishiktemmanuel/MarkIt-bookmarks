@@ -47,8 +47,8 @@ const BookmarkActions = ({
     if (!triggerRef.current) return;
     const rect = triggerRef.current.getBoundingClientRect();
     setMenuPos({
-      top: rect.bottom + window.scrollY + 4,
-      right: window.innerWidth - rect.right - window.scrollX,
+      top: rect.bottom + 4,                  // fixed: no + scrollY (getBoundingClientRect is already viewport-relative)
+      right: window.innerWidth - rect.right, // fixed: no - scrollX (same reason)
     });
     setOpen(true);
     setShowCollections(false);
@@ -161,8 +161,8 @@ const BookmarkActions = ({
                     setShowCollections(false);
                   }}
                   className={`w-full text-left text-sm rounded-lg px-3 py-2 transition-colors ${c.id === currentCollectionId
-                      ? "text-primary bg-primary/10"
-                      : "text-foreground hover:bg-accent"
+                    ? "text-primary bg-primary/10"
+                    : "text-foreground hover:bg-accent"
                     }`}
                 >
                   {c.name}
