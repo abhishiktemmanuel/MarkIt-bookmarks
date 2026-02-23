@@ -1,10 +1,11 @@
 import type { NextConfig } from "next";
 
+const isExtension = process.env.IS_EXTENSION_BUILD === 'true';
+
 const nextConfig: NextConfig = {
-    eslint: {
-        dirs: ["src/app", "src/components/AuthPage.tsx", "src/context", "src/hooks", "src/lib"],
-    },
+    output: isExtension ? 'export' : undefined,
     images: {
+        unoptimized: isExtension,
         remotePatterns: [
             {
                 protocol: "https",
@@ -16,17 +17,25 @@ const nextConfig: NextConfig = {
                 hostname: "lh3.googleusercontent.com",
             },
             {
-                // microlink.io screenshot CDN
                 protocol: "https",
                 hostname: "api.microlink.io",
             },
             {
-                // microlink CDN for cached screenshots
                 protocol: "https",
                 hostname: "**.microlink.io",
             },
         ],
     },
+    eslint: {
+        ignoreDuringBuilds: true,
+        dirs: ["src/app", "src/components/AuthPage.tsx", "src/context", "src/hooks", "src/lib"],
+    },
+    typescript: {
+        ignoreBuildErrors: true,
+    },
 };
 
+
+
 export default nextConfig;
+

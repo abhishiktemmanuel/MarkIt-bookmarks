@@ -9,10 +9,15 @@ const AuthPage = () => {
     const { signInWithGoogle } = useAuth();
     const [loading, setLoading] = useState(false);
 
-    const handleGoogleSignIn = async () => {
-        setLoading(true);
-        await signInWithGoogle();
-        // loading stays true — page will redirect
+    const isExtension = process.env.IS_EXTENSION_BUILD === "true" || (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.id);
+
+    const handleAction = async () => {
+        if (isExtension) {
+            window.open(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000", "_blank");
+        } else {
+            setLoading(true);
+            await signInWithGoogle();
+        }
     };
 
     return (
@@ -42,11 +47,11 @@ const AuthPage = () => {
                         Your private bookmarks. Always in sync.
                     </p>
 
-                    {/* Google Button */}
+                    {/* Button */}
                     <motion.button
                         whileHover={{ scale: loading ? 1 : 1.02 }}
                         whileTap={{ scale: loading ? 1 : 0.98 }}
-                        onClick={handleGoogleSignIn}
+                        onClick={handleAction}
                         disabled={loading}
                         className="w-full py-3.5 px-6 rounded-xl bg-primary text-primary-foreground font-semibold text-base flex items-center justify-center gap-3 hover:glow-primary transition-shadow disabled:opacity-70 disabled:cursor-not-allowed"
                     >
@@ -55,7 +60,7 @@ const AuthPage = () => {
                         ) : (
                             <GoogleIcon />
                         )}
-                        {loading ? "Signing in…" : "Continue with Google"}
+                        {loading ? "Signing in…" : (isExtension ? "Sign in on MarkIt Web" : "Continue with Google")}
                     </motion.button>
 
                     {/* Footer */}

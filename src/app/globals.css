@@ -87,7 +87,14 @@
         @apply bg-background text-foreground antialiased;
         font-family: 'Inter', system-ui, sans-serif;
     }
+    body.extension-container {
+        width: 450px;
+        height: 600px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
 }
+
 
 @layer utilities {
     .glass {

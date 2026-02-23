@@ -25,7 +25,7 @@ export default function RootLayout({
                 <link rel="preconnect" href="https://www.google.com" />
                 <link rel="dns-prefetch" href="https://lh3.googleusercontent.com" />
             </head>
-            <body className={inter.className}>
+            <body className={`${inter.className} ${process.env.IS_EXTENSION_BUILD === "true" ? "extension-container" : ""}`}>
                 <AuthProvider>
                     {children}
                     <Toaster />

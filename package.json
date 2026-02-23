@@ -11,8 +11,10 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "start": "next start"
+    "start": "next start",
+    "build:extension": "IS_EXTENSION_BUILD=true next build && node scripts/fix-extension.mjs"
   },
+
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-accordion": "^1.2.12",
